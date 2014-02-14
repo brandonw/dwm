@@ -168,6 +168,7 @@ static void destroynotify(XEvent *e);
 static void detach(Client *c);
 static void detachstack(Client *c);
 static Monitor *dirtomon(int dir);
+static Monitor *getmon(int num);
 static void drawbar(Monitor *m);
 static void drawbars(void);
 static void enternotify(XEvent *e);
@@ -175,6 +176,7 @@ static void expose(XEvent *e);
 static void focus(Client *c);
 static void focusin(XEvent *e);
 static void focusmon(const Arg *arg);
+static void focusmondet(const Arg *arg);
 static void focusstack(const Arg *arg);
 static Bool getrootptr(int *x, int *y);
 static long getstate(Window w);
@@ -214,6 +216,7 @@ static void sigchld(int unused);
 static void spawn(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
+static void tagmondet(const Arg *arg);
 static void tile(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
@@ -752,6 +755,20 @@ dirtomon(int dir) {
 	return m;
 }
 
+Monitor *
+getmon(int num) {
+	Monitor *m = NULL;
+
+	if(!mons->next)
+		return NULL;
+	for(m = mons; m->num != num && m->next; m = m->next);
+
+	if(m->num != num)
+		return NULL;
+
+	return m;
+}
+
 void
 drawbar(Monitor *m) {
 	int x, xx, w;
@@ -883,6 +900,19 @@ focusmon(const Arg *arg) {
 		return;
 	unfocus(selmon->sel, False); /* s/True/False/ fixes input focus issues
 					in gedit and anjuta */
+	selmon = m;
+	focus(NULL);
+}
+
+void
+focusmondet(const Arg *arg) {
+	Monitor *m;
+
+	m = getmon(arg->i);
+	if(m == NULL)
+		return;
+
+	unfocus(selmon->sel, False);
 	selmon = m;
 	focus(NULL);
 }
@@ -1683,6 +1713,20 @@ tagmon(const Arg *arg) {
 	if(!selmon->sel || !mons->next)
 		return;
 	sendmon(selmon->sel, dirtomon(arg->i));
+}
+
+void
+tagmondet(const Arg *arg) {
+	Monitor *m;
+
+	if(!selmon->sel || !mons->next || !selmon || selmon->num == arg->i)
+		return;
+
+	m = getmon(arg->i);
+	if(m == NULL)
+		return;
+
+	sendmon(selmon->sel, m);
 }
 
 void
