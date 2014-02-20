@@ -860,18 +860,17 @@ drawcoloredtext(char *text, int monwidth) {
 		if( i ) {
 			dc.w = monwidth - dc.x;
 			drawtext(buf, col, first);
-			dc.x += textnw(buf, i) + textnw(&c,1);
+			dc.x += textnw(buf, i);
 			if( first ) dc.x += ( dc.font.ascent + dc.font.descent ) / 2;
 			first = False;
 		} else if( first ) {
-			ox = dc.x += textnw(&c,1);
+			ox = dc.x;
 		}
 		*ptr = c;
 		col = dc.colors[ c-1 ];
 		buf = ++ptr;
 	}
-	if( !first ) dc.x-=(dc.font.ascent+dc.font.descent)/2;
-	drawtext(buf, col, True);
+	drawtext(buf, col, False);
 	dc.x = ox;
 }
 
@@ -1865,12 +1864,25 @@ tagmondet(const Arg *arg) {
 int
 textnw(const char *text, unsigned int len) {
 	XRectangle r;
+	int i, width = 0;
+	char textnw_tmp[256];
+
+	for(i = 0; *text != 0 && i < len; text++) {
+		if(*text < 0 || *text > NUMCOLORS) {
+			textnw_tmp[i] = *text;
+			i++;
+		}
+	}
+	textnw_tmp[i] = 0;
 
 	if(dc.font.set) {
-		XmbTextExtents(dc.font.set, text, len, NULL, &r);
-		return r.width;
+		XmbTextExtents(dc.font.set, textnw_tmp, i, NULL, &r);
+		width = r.width;
+	} else {
+		width = XTextWidth(dc.font.xfont, textnw_tmp, i);
 	}
-	return XTextWidth(dc.font.xfont, text, len);
+
+	return width;
 }
 
 void
