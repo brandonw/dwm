@@ -1,16 +1,18 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-#define NUMCOLORS         4             // need at least 3
+#define NUMCOLORS         6             // need at least 3
 static const char colors[NUMCOLORS][ColLast][8] = {
    // border   foreground  background
-   { "#dddddd", "#bbbbbb", "#222222" },  // 0 = normal
-   { "#ff0000", "#eeeeee", "#005577" },  // 1 = selected
-   { "#0066ff", "#0066ff", "#ffffff" },  // 2 = urgent/warning
-   { "#ff0000", "#ffffff", "#ff0000" },  // 3 = error
+   { "#839496", "#839496", "#002b36" },  // 0 = normal
+   { "#fdf6e3", "#fdf6e3", "#586e75" },  // 1 = selected
+   { "#002b36", "#fdf6e3", "#b58900" },  // 2 = urgent
+   { "#839496", "#859900", "#002b36" },  // 3 = stable
+   { "#839496", "#b58900", "#002b36" },  // 4 = warning
+   { "#839496", "#dc322f", "#002b36" },  // 5 = error
    // add more here
 };
-static const char font[]            = "-*-dina-medium-r-*-*-13-*-*-*-*-*-*-*";
+static const char font[]            = "-misc-icons-medium-r-*-*-13-*-*-*-*-*-*-*" "," "-*-dina-medium-r-*-*-13-*-*-*-*-*-*-*";
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const Bool showbar           = True;     /* False means no bar */
@@ -22,8 +24,8 @@ static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Firefox",  NULL,       NULL,       1 << 1,       False,       -1 },
-	{ "Chromium", NULL,       NULL,       1 << 1,       False,       -1 }
+	{ "Firefox",  NULL,       NULL,       1 << 8,       False,       -1 },
+	{ "Chromium", NULL,       NULL,       1 << 8,       False,       -1 }
 };
 
 /* layout(s) */
