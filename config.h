@@ -13,11 +13,17 @@ static const char colors[NUMCOLORS][ColLast][8] = {
    // add more here
 };
 static const char font[]            = "-misc-icons-medium-r-*-*-13-*-*-*-*-*-*-*" "," "-*-dina-medium-r-*-*-13-*-*-*-*-*-*-*";
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const Bool showbar           = True;     /* False means no bar */
-static const Bool topbar            = True;     /* False means bottom bar */
-static const unsigned int mainmon   = 0;        /* Monitor index to stick status to */
+static const unsigned int borderpx  = 1;    /* border pixel of windows */
+static const unsigned int snap      = 32;   /* snap pixel */
+static const Bool showbar           = True; /* False means no bar */
+static const Bool topbar            = True; /* False means bottom bar */
+static const unsigned int mainmon   = 0;    /* Monitor index to stick status to */
+static const int tag_order[]        = {     /* Order of tags to show on monitors on startup */
+	1, 1<<8, 1<<7, 1<<1, 1<<2,
+	1<<3, 1<<4, 1<<5, 1<<6,
+}; /* must have at least N elements where N
+      is the number of monitors you could
+      possibly have connected */
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };

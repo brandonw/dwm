@@ -716,9 +716,9 @@ createmon(void) {
 	/* reassing tags when creating a new monitor */
 	for(i=1, tm = mons; tm; tm = tm->next, i++) {
 		tm->seltags ^= 1;
-		tm->tagset[tm->seltags] = i;
+		tm->tagset[tm->seltags] = tag_order[i-1];
 	}
-	m->tagset[0] = m->tagset[1] = i;
+	m->tagset[0] = m->tagset[1] = tag_order[i-1];
 	m->mfact = mfact;
 	m->nmaster = nmaster;
 	m->showbar = showbar;
