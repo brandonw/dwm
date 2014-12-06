@@ -67,7 +67,7 @@ static const char terminal[]  = "urxvt";
 static const char *termcmd[]  = { terminal, NULL };
 static const char scratchpadname[]  = "scratchpad";
 static const char *scratchpadcmd[]  = { terminal, "-name", scratchpadname, "-geometry", "150x40", NULL };
-static const char *lockcmd[]        = { "slimlock" };
+static const char *lockcmd[]        = { "slock" };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
